@@ -54,7 +54,7 @@ public class LeaveManageController {
 	    leaveDetails.setEmployeeName(userInfo.getFirstName() + " " + userInfo.getLastName());
 	    leaveManageService.applyLeave(leaveDetails);
 	    mav.addObject("successMessage", "Your Leave Request is registered!");
-	    mav.setView(new RedirectView("/leave-management-system/user/home"));
+	    mav.setView(new RedirectView("/user/home"));
 	}
 	return mav;
     }
@@ -113,7 +113,7 @@ public class LeaveManageController {
 	}
 	leaveManageService.updateLeaveDetails(leaveDetails);
 	mav.addObject("successMessage", "Updated Successfully!");
-	mav.setView(new RedirectView("/leave-management-system/user/manage-leaves"));
+	mav.setView(new RedirectView("/user/manage-leaves"));
 	return mav;
     }
 

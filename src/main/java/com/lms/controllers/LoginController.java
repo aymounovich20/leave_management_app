@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.lms.models.UserInfo;
 import com.lms.service.LeaveManageService;
+import com.lms.service.MailSender;
 import com.lms.service.UserInfoService;
 
 /**
@@ -34,6 +35,8 @@ public class LoginController {
     @Autowired
     LeaveManageService leaveManageService;
 
+//    @Autowired
+//    MailSender mailsender;
     /**
      * This method opens up the login page if user is not authenticated
      * otherwise redirects the user to user home page.
@@ -69,6 +72,7 @@ public class LoginController {
      * @param bindResult
      * @return ModelAndView
      */
+
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public ModelAndView createNewUser(ModelAndView mav, @Valid UserInfo userInfo, BindingResult bindResult) {
 
@@ -85,6 +89,8 @@ public class LoginController {
 	    mav.addObject("successMessage", "User registered successfully! Awaiting for Manager approval!!");
 	    mav.addObject("userInfo", new UserInfo());
 	    mav.setViewName("registration");
+	    
+	  //  mailsender.sendSimpleMessage(userInfo.getEmail(), null, null);
 	}
 	return mav;
     }
