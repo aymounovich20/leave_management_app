@@ -74,15 +74,15 @@ public class AdminController {
 	} else if (action.equals("delete")) {
 	    userInfoService.deleteUser(id);
 	    mav.addObject("successMessage", "User removed successfully!!");
-	    mav.setView(new RedirectView("/leave-management-system/user/manage-users"));
+	    mav.setView(new RedirectView("/user/manage-users"));
 	} else if (action.equals("block")) {
 	    userInfoService.blockUser(id);
 	    mav.addObject("successMessage", "User blocked successfully!!");
-	    mav.setView(new RedirectView("/leave-management-system/user/manage-users"));
+	    mav.setView(new RedirectView("/user/manage-users"));
 	} else if (action.equals("unblock")) {
 	    userInfoService.unBlockUser(id);
 	    mav.addObject("successMessage", "User is active now!!");
-	    mav.setView(new RedirectView("/leave-management-system/user/manage-users"));
+	    mav.setView(new RedirectView("/user/manage-users"));
 	}
 
 	return mav;
