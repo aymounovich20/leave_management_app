@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.lms.models.LeaveDetails;
 import com.lms.repository.LeaveManageNativeSqlRepo;
 import com.lms.repository.LeaveManageRepository;
+import com.lms.repository.UserInfoRepository;
 
 @Service(value = "leaveManageService")
 public class LeaveManageService {
@@ -17,6 +18,9 @@ public class LeaveManageService {
 
     @Autowired
     private LeaveManageNativeSqlRepo leaveManageNativeRepo;
+    
+    @Autowired
+    private UserInfoRepository userInfoRepo;
 
     @SuppressWarnings("deprecation")
     public void applyLeave(LeaveDetails leaveDetails) {
@@ -67,5 +71,8 @@ public class LeaveManageService {
 	whereQuery.append(" 1=0");
 	
 	return leaveManageNativeRepo.getAllLeavesOnStatus(whereQuery);
+    }
+    public void increaseLeaveBalance() {
+    	userInfoRepo.incrementBalance();
     }
 }

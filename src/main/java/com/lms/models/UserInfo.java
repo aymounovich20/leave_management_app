@@ -44,6 +44,13 @@ public class UserInfo {
 
     @Column(name = "active")
     private boolean active;
+    
+    @Column(name = "balance")
+    private int balance = 0;
+    
+    public int getBalance(){
+    	return balance;
+    }
 
     public int getId() {
 	return id;

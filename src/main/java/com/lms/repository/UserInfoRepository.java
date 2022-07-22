@@ -17,6 +17,10 @@ public interface UserInfoRepository extends JpaRepository<UserInfo, Serializable
     public UserInfo findByEmail(String email);
 
     public List<UserInfo> findAllByOrderById();
+    
+    @Query(value = "update userinfo set balance=balance+1 where active=true", nativeQuery = true)
+    public void incrementBalance();
+    
 
     public UserInfo findById(int id);
 

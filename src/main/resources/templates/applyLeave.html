@@ -69,6 +69,9 @@
         <div class="grid-form1">
             <h3>Request For Leave</h3>
             <div class="tab-content tab-pane active" id="horizontal-form">
+            		<div class="alert alert-success" th:if="${(leaveBalance != null)}">
+						<span th:text="${'You have a balance of : ' +leaveBalance}"></span>
+                  	</div>
                 
                 <form class="form-horizontal" th:action="@{/user/apply-leave}" method="post" th:object="${leaveDetails}">
                 	
@@ -148,7 +151,7 @@
 <!--inner block end here-->
 <!--copy rights start here-->
 <div class="copyrights">
-	 <p>&copy; 2018 D&D by Navin. All Rights Reserved.</p>
+	 <p>&copy; 2022 Aymen & Nader. All Rights Reserved.</p>
 </div>	
 <!--COPY rights end here-->
 </div>

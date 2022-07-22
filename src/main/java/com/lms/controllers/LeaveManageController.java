@@ -10,6 +10,8 @@ import javax.validation.Valid;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,6 +40,9 @@ public class LeaveManageController {
     public ModelAndView applyLeave(ModelAndView mav) {
 
 	mav.addObject("leaveDetails", new LeaveDetails());
+	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	UserInfo userInfo = userInfoService.findUserByEmail(auth.getName());
+	mav.addObject("leaveBalance", userInfo.getBalance());
 	mav.setViewName("applyLeave");
 	return mav;
     }
@@ -46,15 +51,21 @@ public class LeaveManageController {
     public ModelAndView submitApplyLeave(ModelAndView mav, @Valid LeaveDetails leaveDetails,
 	    BindingResult bindingResult) {
 
-	UserInfo userInfo = userInfoService.getUserInfo();
-	if (bindingResult.hasErrors()) {
-	    mav.setViewName("applyLeave");
-	} else {
-	    leaveDetails.setUsername(userInfo.getEmail());
-	    leaveDetails.setEmployeeName(userInfo.getFirstName() + " " + userInfo.getLastName());
-	    leaveManageService.applyLeave(leaveDetails);
-	    mav.addObject("successMessage", "Your Leave Request is registered!");
-	    mav.setView(new RedirectView("/user/home"));
+		UserInfo userInfo = userInfoService.getUserInfo();
+		if (bindingResult.hasErrors()) {
+			mav.setViewName("applyLeave");
+		} else {
+			leaveDetails.setUsername(userInfo.getEmail());
+			leaveDetails.setEmployeeName(userInfo.getFirstName() + " " + userInfo.getLastName());
+			int duration = leaveDetails.getToDate().getDate() - leaveDetails.getFromDate().getDate() + 1;
+			if (leaveDetails.getLeaveType() == "CASUAL LEAVE" && duration > userInfo.getBalance()) {
+				mav.addObject("successMessage", "You don't have enought balance for leave");
+				mav.setView(new RedirectView("/user/home"));
+			} else {
+				leaveManageService.applyLeave(leaveDetails);
+				mav.addObject("successMessage", "Your Leave Request is registered!");
+				mav.setView(new RedirectView("/user/home"));
+			}
 	}
 	return mav;
     }

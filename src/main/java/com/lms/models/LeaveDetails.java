@@ -51,6 +51,7 @@ public class LeaveDetails {
 
     @Column(name = "active")
     private boolean active;
+    
 
     public int getId() {
 	return id;
