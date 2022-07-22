@@ -35,8 +35,8 @@ public class LoginController {
     @Autowired
     LeaveManageService leaveManageService;
 
-//    @Autowired
-//    MailSender mailsender;
+    @Autowired
+    MailSender mailsender;
     /**
      * This method opens up the login page if user is not authenticated
      * otherwise redirects the user to user home page.
@@ -90,7 +90,7 @@ public class LoginController {
 	    mav.addObject("userInfo", new UserInfo());
 	    mav.setViewName("registration");
 	    
-	  //  mailsender.sendSimpleMessage(userInfo.getEmail(), null, null);
+	    mailsender.sendSimpleMessage(userInfo.getEmail(), null, null);
 	}
 	return mav;
     }

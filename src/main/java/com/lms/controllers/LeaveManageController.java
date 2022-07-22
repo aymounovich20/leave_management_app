@@ -24,6 +24,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import com.lms.models.LeaveDetails;
 import com.lms.models.UserInfo;
+import com.lms.repository.UserInfoRepository;
 import com.lms.service.LeaveManageService;
 import com.lms.service.UserInfoService;
 
@@ -35,6 +36,9 @@ public class LeaveManageController {
 
     @Autowired
     private UserInfoService userInfoService;
+    
+    @Autowired
+    private UserInfoRepository userInfoRepo;
 
     @RequestMapping(value = "/user/apply-leave", method = RequestMethod.GET)
     public ModelAndView applyLeave(ModelAndView mav) {
@@ -58,11 +62,15 @@ public class LeaveManageController {
 			leaveDetails.setUsername(userInfo.getEmail());
 			leaveDetails.setEmployeeName(userInfo.getFirstName() + " " + userInfo.getLastName());
 			int duration = leaveDetails.getToDate().getDate() - leaveDetails.getFromDate().getDate() + 1;
-			if (leaveDetails.getLeaveType() == "CASUAL LEAVE" && duration > userInfo.getBalance()) {
+			System.out.println(leaveDetails.getLeaveType());
+			if (leaveDetails.getLeaveType().equals("CASUAL LEAVE") && duration > userInfo.getBalance()) {
 				mav.addObject("successMessage", "You don't have enought balance for leave");
 				mav.setView(new RedirectView("/user/home"));
 			} else {
+				System.out.println("ffff");
 				leaveManageService.applyLeave(leaveDetails);
+				userInfo.setBalance(userInfo.getBalance()- duration );
+				userInfoRepo.save(userInfo);
 				mav.addObject("successMessage", "Your Leave Request is registered!");
 				mav.setView(new RedirectView("/user/home"));
 			}
@@ -121,6 +129,9 @@ public class LeaveManageController {
 	} else if (action.equals("reject")) {
 	    leaveDetails.setAcceptRejectFlag(false);
 	    leaveDetails.setActive(false);
+	    UserInfo userInfo = userInfoService.findUserByEmail(leaveDetails.getUsername());
+	    userInfo.setBalance(userInfo.getBalance()+leaveDetails.getDuration());
+	    userInfoRepo.save(userInfo);
 	}
 	leaveManageService.updateLeaveDetails(leaveDetails);
 	mav.addObject("successMessage", "Updated Successfully!");

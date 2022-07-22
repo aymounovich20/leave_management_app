@@ -51,6 +51,9 @@ public class UserInfo {
     public int getBalance(){
     	return balance;
     }
+    public void setBalance(int balance) {
+    	this.balance = balance;
+    }
 
     public int getId() {
 	return id;

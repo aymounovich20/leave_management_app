@@ -24,7 +24,6 @@ public class MailSender {
     		" LET'S MAKE THE WORLD MORE PRODUCTIVE, TOGETHER. \n ©leave App  "
     				;
     		mail.setText(texte);
-    		
     		emailSender.send(mail);
 }
 }

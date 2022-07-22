@@ -104,7 +104,7 @@
 <script th:src="@{/js/moment.min.js}"></script>
 <script th:src="@{/js/fullcalendar.min.js}"></script>
 <script>
-var urlSrc = '/leave-management-system/user/get-all-leaves';
+var urlSrc = '/user/get-all-leaves';
 $(document).ready(function() {
 
     $('#mycalendar').fullCalendar({
@@ -122,7 +122,7 @@ $(document).ready(function() {
     $('input:checkbox').change(function(){
     	
     	$('#mycalendar').fullCalendar('removeEventSource',urlSrc);
-    	urlSrc = '/leave-management-system/user/get-all-leaves?pending='+$('#pending').is(':checked')+'&accepted='+$('#accepted').is(':checked')+'&rejected='+$('#rejected').is(':checked')+'';
+    	urlSrc = '/user/get-all-leaves?pending='+$('#pending').is(':checked')+'&accepted='+$('#accepted').is(':checked')+'&rejected='+$('#rejected').is(':checked')+'';
 
     	$('#mycalendar').fullCalendar('removeEvents');
     	$('#mycalendar').fullCalendar('addEventSource',urlSrc);
