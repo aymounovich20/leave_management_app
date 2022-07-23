@@ -15,6 +15,9 @@ public class UserInfoService {
 
     @Autowired
     private UserInfoRepository userInfoRepository;
+    
+    @Autowired
+    MailSender mailsender;
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -57,7 +60,10 @@ public class UserInfoService {
     }
 
     public void unBlockUser(int id) {
-
+    UserInfo info = userInfoRepository.findById(id);
+    String subject = "Account verified";
+    String texte = "Hello "+info.getFirstName()+" ! 🖐 \n\\n 📝 "+" your manager verified your acount you can log in now. \n\n"+"LET'S MAKE THE WORLD MORE PRODUCTIVE, TOGETHER. \\n ©leave App";
+    mailsender.sendSimpleMessage(info.getEmail(), subject, texte);
 	userInfoRepository.unBlockUser(id);
     }
 

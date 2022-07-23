@@ -89,8 +89,9 @@ public class LoginController {
 	    mav.addObject("successMessage", "User registered successfully! Awaiting for Manager approval!!");
 	    mav.addObject("userInfo", new UserInfo());
 	    mav.setViewName("registration");
-	    
-	    mailsender.sendSimpleMessage(userInfo.getEmail(), null, null);
+	    String subject = "Welcome on board with leave management app";
+	    String texte = "Hello ! 🖐 \n\n 📝 : Once your manager verify your acount you can log in. \n\n LET'S MAKE THE WORLD MORE PRODUCTIVE, TOGETHER. \n ©leave App";
+	    mailsender.sendSimpleMessage(userInfo.getEmail(), subject, texte);
 	}
 	return mav;
     }

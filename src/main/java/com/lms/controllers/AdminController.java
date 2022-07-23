@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.lms.models.UserInfo;
+import com.lms.service.MailSender;
 import com.lms.service.UserInfoService;
 
 @Controller
@@ -24,6 +25,9 @@ public class AdminController {
 
     @Autowired
     UserInfoService userInfoService;
+    
+    @Autowired
+    MailSender mailsender;
 
     @RequestMapping(value = "/user/change-password", method = RequestMethod.GET)
     public ModelAndView changePasswordForm(ModelAndView mav) {
